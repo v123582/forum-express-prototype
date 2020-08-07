@@ -27,7 +27,7 @@ const userService = {
           return comment
         }
       })
-      const isFollowed = req.user.Followings.map(d => d.id).includes(user.id)
+      const isFollowed = req.user ? req.user.Followings.map(d => d.id).includes(user.id) : []
       callback({ profile: user, isFollowed: isFollowed })
     })
   },

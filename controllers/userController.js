@@ -3,6 +3,7 @@ const User = db.User
 const bcrypt = require('bcryptjs')
 
 const userService = require('../services/userService.js')
+const helpers = require('../_helpers');
 
 const userController = {
   signUpPage: (req, res) => {
@@ -59,6 +60,7 @@ const userController = {
     })
   },
   putUser: (req, res) => {
+    req.user = helpers.getUser(req)
     userService.putUser(req, res, (data) => {
       if (data['status'] === 'success') {
         req.flash('success_messages', data['message'])
