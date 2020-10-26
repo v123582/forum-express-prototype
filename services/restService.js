@@ -1,4 +1,5 @@
 const db = require('../models')
+const helpers = require('../_helpers')
 const Restaurant = db.Restaurant
 const Category = db.Category
 const Comment = db.Comment
@@ -59,8 +60,8 @@ const restService = {
       restaurant.viewCounts += 1
       restaurant.save()
         .then(restaurant => {
-          const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(req.user.id)
-          const isLiked = restaurant.LikedUsers.map(d => d.id).includes(req.user.id)
+          const isFavorited = restaurant.FavoritedUsers.map(d => d.id).includes(helpers.getUser(req).id)
+          const isLiked = restaurant.LikedUsers.map(d => d.id).includes(helpers.getUser(req).id)
           callback({
             restaurant: restaurant,
             isFavorited: isFavorited,
