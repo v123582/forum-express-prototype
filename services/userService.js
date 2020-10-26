@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
+const helpers = require('../_helpers')
 const User = db.User
 const Restaurant = db.Restaurant
 const Comment = db.Comment
@@ -86,7 +87,7 @@ const userService = {
   },
   addLike: (req, res, callback) => {
     return Like.create({
-      UserId: req.user.id,
+      UserId: +helpers.getUser(req).id,
       RestaurantId: req.params.restaurantId
     }).then((restaurant) => {
       return callback({ status: 'success', message: '' })
@@ -96,8 +97,8 @@ const userService = {
   removeLike: (req, res, callback) => {
     return Like.findOne({
       where: {
-        UserId: req.user.id,
-        RestaurantId: req.params.restaurantId
+        UserId: +helpers.getUser(req).id,
+        RestaurantId: +req.params.restaurantId
       }
     }).then((like) => {
       like.destroy()
